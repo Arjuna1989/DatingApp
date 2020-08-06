@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { error } from 'protractor';
+import { AlertifyService } from '../_services/alertify.service';
+import { Router } from '@angular/router';
+import { threadId } from 'worker_threads';
 
 @Component({
   selector: 'app-nav',
@@ -9,24 +12,26 @@ import { error } from 'protractor';
 })
 export class NavComponent implements OnInit {
 
-  model:any={};
+  model: any = {};
 
-  constructor(private authService:AuthService ){ }
+  constructor(public authService: AuthService, private alertify: AlertifyService, private router: Router ){ }
 
   ngOnInit() {
 
   }
-  
 
   Login(){
 
-   this.authService.login(this.model).subscribe( next=>{
+   this.authService.login(this.model).subscribe( next => {
 
-      console.log('logged successfully');
-      this.model ={};
+    this.alertify.success('Logged in successfully');
 
-    },error=>{
-      console.log('Failed to login');
+    }, error => {
+      this.model = {};
+      this.alertify.error(error);
+
+    }, () => {
+       this.router.navigate(['/members']);
 
     });
 
@@ -34,16 +39,15 @@ export class NavComponent implements OnInit {
 
   loggedIn(){
 
-    const token = localStorage.getItem('token');
-    return !! token;
+    return this.authService.loggedIn();
 
   }
 
   logout(){
 
     localStorage.removeItem('token');
-    console.log('logged out');
-    
+    this.alertify.message('Logged Out');
+    this.router.navigate(['/home']);
   }
 
 }
