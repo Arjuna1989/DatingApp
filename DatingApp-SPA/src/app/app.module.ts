@@ -1,12 +1,15 @@
 // node module refferance
 import { BrowserModule} from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
-import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { BsDatepickerModule, BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxGalleryModule } from 'ngx-gallery-9';
+
+
 
 
 // Local refferance
@@ -62,8 +65,11 @@ export function TokenGetter(){
    ],
    imports: [
       BrowserModule,
+      BrowserAnimationsModule,
+      BsDatepickerModule.forRoot(),
       HttpClientModule,
       FormsModule,
+      ReactiveFormsModule,
       TabsModule.forRoot(),
       BsDropdownModule.forRoot(),
       RouterModule.forRoot(appRoutes),
